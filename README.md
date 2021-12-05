@@ -13,7 +13,7 @@ garbage bin.
 
 **How to Run Project:**
 
-	*Unity:*
+	**Unity:**
 		(Needs Oculus Link to be setup: https://youtu.be/sSD798Ov2oY)
 		1.) Open project with Unity 2021.1.21.
 		2.) Connect Oculus to your computer using USB cable.
@@ -21,7 +21,7 @@ garbage bin.
 		4.) Press the play button in the editor while wearing the Oculus.
 		5.) Now you can play using the Oculus. 
 		
-	*Build:* 
+	**Build:**
 		(Needs Oculus to be in developer mode (if using Oculus) and ADB to be installed: https://developer.oculus.com/documentation/native/android/mobile-device-setup/)
 		1.) Open ADB in the terminal.
 		2.) Connect Device to computer using USB cable.
@@ -34,12 +34,13 @@ garbage bin.
 		7.) Click the app (should be called AI2).	
 
 **How to Play:**
-	*Left Hand:* 
+
+	**Left Hand:*
 		Trigger: activate teleport mode
 		Grip: pick up objects
 		Primary Button: cancel teleport mode
 
-	*Right Hand:*
+	**Right Hand:**
 		Trigger: activate teleport mode
 		Grip: pick up objects
 		Primary Button: cancel teleport mode
@@ -63,11 +64,9 @@ garbage bin.
 	the doors to restart the game. Since the GameManager handles most of what needs to happen in the game there is very little coupling which makes it easy to make 
 	changes later. The GameManagers also keeps track of the score (amount of trash collected). There is another class called Bin which has an onCollected event that 
 	triggers when a piece of trash is put in the Bin. The GameManager subscribes to this event and increments the score and plays effects when the event is triggered. 
-
 	The scene has three main components: the Environment, the XR Rig, and the Canvas. The Environment holds all the gameobjects that make up the office scene; this includes 
 	the tables, monitors, walls, the bin, and the trash pool. The XR Rig comes from the XR Plugin Management which contains all necessary objects to enable virtual reality. The 
 	Canvas displays the start button and score text.
-
 	There are three main types of gameobjects; grabbable, interactable, and static. The grabbable gameobjects are the pieces of trash. These gameobjects have a ridgebody, collider, halo, and
 	XR Grab Interactable (which allows them to be grabbed). The interactable gameobject are the items in the scene that cannot be grabbed but can be moved. These gameobjects have a ridgebody and collider. The 
 	static gameobjects are the items in the scene that cannot be moved or grabbed they are purely for decorations. 

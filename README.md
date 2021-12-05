@@ -45,7 +45,7 @@ garbage bin.
 		Primary Button: cancel teleport mode
 		Thumbstick: snap turn
 
-**Unity Version:**  2021.1.21
+**Unity Version:** 2021.1.21
 
 **Hardware:** Oculus Quest 2
 

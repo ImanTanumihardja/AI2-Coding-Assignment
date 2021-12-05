@@ -58,18 +58,18 @@ garbage bin.
 
 **Styling Decisions:**
 	Most of the game logic is within the GameManager class. The GameManager controls what happens when the game starts and ends. The game starts when the player presses 
-	the start button and doing so inovkes the onStartGame event in the GameManager and this triggers the trash to spawn, the music to play, and the score text to appear.
-	The game ends when the player has succesfully put all the trash into the bin and this inovkes the onEndGame event in the GameManager which stops the music and opens 
-	the doors to restart the game. Since the GameManager handles most of what needs to happen in the game there is very little coupling which makes it really easy to make 
-	changes later on. The GameManagers also keeps track of the score (amount of trash collected). There is another class called Bin which has an onCollected event that 
+	the start button and doing so invokes the onStartGame event in the GameManager and this triggers the trash to spawn, the music to play, and the score text to appear.
+	The game ends when the player has successfully put all the trash into the bin, and this invokes the onEndGame event in the GameManager which stops the music and opens 
+	the doors to restart the game. Since the GameManager handles most of what needs to happen in the game there is very little coupling which makes it easy to make 
+	changes later. The GameManagers also keeps track of the score (amount of trash collected). There is another class called Bin which has an onCollected event that 
 	triggers when a piece of trash is put in the Bin. The GameManager subscribes to this event and increments the score and plays effects when the event is triggered. 
 
-	The scene has three main componenets: the Enviroment, the XR Rig, and the Canvas. The Enviroment holds all the gameobjects that make up the office scene; this includes 
+	The scene has three main components: the Environment, the XR Rig, and the Canvas. The Environment holds all the gameobjects that make up the office scene; this includes 
 	the tables, monitors, walls, the bin, and the trash pool. The XR Rig comes from the XR Plugin Management which contains all necessary objects to enable virtual reality. The 
 	Canvas displays the start button and score text.
 
 	There are three main types of gameobjects; grabbable, interactable, and static. The grabbable gameobjects are the pieces of trash. These gameobjects have a ridgebody, collider, halo, and
 	XR Grab Interactable (which allows them to be grabbed). The interactable gameobject are the items in the scene that cannot be grabbed but can be moved. These gameobjects have a ridgebody and collider. The 
-	static gameobjects are the items in the scene that cannot be moved or grabbed they are purley for decorations. 
+	static gameobjects are the items in the scene that cannot be moved or grabbed they are purely for decorations. 
 
 **Demo Video:** https://youtu.be/Lt1L6o-86Ok

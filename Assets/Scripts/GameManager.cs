@@ -1,49 +1,106 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private Transform trashPool = null;
+    /// <summary>
+    /// The <c>GameManager<c> class controls the flow of the game.
+    /// </summary>
+
+    public UnityEvent onStartGame;
+    public UnityEvent onEndGame;
+
+    [SerializeField] private Transform trashPool;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private AudioSource scoreAudio;
+    [SerializeField] private ParticleSystem scorePS;
+    [SerializeField] private ScreenFader screenFader;
 
     private int score = 0;
-    private int maxTrash = 10;
-    private Queue<GameObject> deactiveTrash = new Queue<GameObject>();
-    private HashSet<GameObject> activeTrash = new HashSet<GameObject>();
+    private int totalCount;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        Bin.onCollectedEvent += TrashCollected;
+    }
+
+    private void OnDestroy()
+    {
+        Bin.onCollectedEvent -= TrashCollected;
+    }
+
+    public void StartGame()
+    {
+        onStartGame?.Invoke();
+
+        totalCount = trashPool.childCount;
+
+        // Spawn tash
         foreach (Transform trash in trashPool)
         {
-            deactiveTrash.Enqueue(trash.gameObject);
+            Behaviour halo = (Behaviour) trash.gameObject.GetComponent("Halo");
+            halo.enabled = true;
+
+            float x = Random.Range(-4.5f, 4.5f);
+            float y = Random.Range(0.0f, 2.0f);
+            float z = Random.Range(-7.5f, 7.5f);
+            trash.transform.position = new Vector3(x, y, z);
         }
 
+        // Fade in score text
+        StartCoroutine(Fade());
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Restart()
     {
-        while (activeTrash.Count < maxTrash && deactiveTrash.Count > 0)
-        {
-            activeTrash.Add(deactiveTrash.Dequeue());
-        }  
+        StartCoroutine(RestartScene());
     }
 
-    public void TrashCollected(GameObject go)
+    private IEnumerator RestartScene()
     {
-        if (activeTrash.Contains(go))
-        {
-            DeactivateTrash(go);
+        // Fade Black
+        yield return screenFader.StartFadeIn();
 
-            score++;
-            Debug.LogFormat(this, "Score: {0}", score);
+        yield return new WaitForSeconds(1);
+
+        // Reload Scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        yield return null;
+    }
+
+    private void TrashCollected()
+    {
+        // Increment score and display updated score
+        score++;
+        scoreText.text = $"Trash Collected: {score}";
+
+        // Play effects
+        scoreAudio.Play();
+        scorePS.Play();
+
+        // Player finished
+        if (score == totalCount)
+        {
+            scoreText.text = "Done";
+            onEndGame?.Invoke();
         }
+
+        Debug.LogFormat(this, "Trash Collected: {0}", score);
     }
 
-    private void DeactivateTrash(GameObject go)
+    private IEnumerator Fade()
     {
-        activeTrash.Remove(go);
-        deactiveTrash.Enqueue(go);
+        float timer = 0;
+        while (timer < 1)
+        {
+            timer += Time.deltaTime;
+            scoreText.color = new Color(0, 0, 0, timer);
+            
+            yield return null;
+        }
     }
 }

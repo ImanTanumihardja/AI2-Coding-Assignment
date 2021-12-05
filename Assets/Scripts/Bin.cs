@@ -1,18 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Bin : MonoBehaviour
 {
-    [SerializeField] private UnityEvent<GameObject> CollectedEvent;
+    /// <summary>
+    /// The <c>Bin<c> class mages when the bin has collected trash.
+    /// </summary>
+
+    public delegate void CollectedEventHandler();
+    public static event CollectedEventHandler onCollectedEvent;
+
+    private const string UNCOLLECTED = "Uncollected";
 
     private void OnTriggerEnter(Collider other)
     {
         GameObject go = other.gameObject;
-        if (go.CompareTag("Active"))
+        // Check if has been collected
+        if (go.CompareTag(UNCOLLECTED))
         {
-            CollectedEvent?.Invoke(go);
+            go.tag = "Untagged";
+            // Disable grab
+            go.GetComponent<XRGrabInteractable>().enabled = false;
+
+            Behaviour halo = (Behaviour)go.gameObject.GetComponent("Halo");
+            halo.enabled = false;
+
+            onCollectedEvent();
         }
     }
 }

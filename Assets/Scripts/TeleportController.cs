@@ -10,13 +10,9 @@ public class TeleportController : MonoBehaviour
     /// When primary button let go reverts back to base controllers
     /// </summary>
 
-    [SerializeField] private GameObject baseControllerGameObject;
-    [SerializeField] private GameObject teleportationGameObject;
-
     [SerializeField] private InputActionReference teleportActivationReference;
 
     [Space]
-    //
     [SerializeField] private UnityEvent OnTeleportActivate;
     [SerializeField] private UnityEvent OnTeleportCancel;
 
@@ -31,6 +27,15 @@ public class TeleportController : MonoBehaviour
     {
         teleportActivationReference.action.performed -= TeleportModeActivate;
         teleportActivationReference.action.canceled -= TeleportModeCancel;
+    }
+    private void OnEnable()
+    {
+        DeactivateTeleporter();
+    }
+
+    private void OnDisable()
+    {
+        OnTeleportActivate?.Invoke();
     }
 
     // Called when you want to teleport and revert back to base controllers

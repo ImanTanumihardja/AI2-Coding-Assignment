@@ -4,10 +4,13 @@
 garbage bin.
 
 **Stretch Goals:** 
+
 	1. Implement a scoreboard that tracks how many pieces of trash have been successfully
 	moved to the trash can.
+
 	2. Support different types of pieces of trash, which may have different shapes, materials,
 	colors, or physical properties.
+
 	3. Add in appropriate sound effects for various actions that happen as you pick up and put
 	away trash. 
 
@@ -35,7 +38,7 @@ garbage bin.
 
 **How to Play:**
 
-	**Left Hand:*
+	**Left Hand:**
 		Trigger: activate teleport mode
 		Grip: pick up objects
 		Primary Button: cancel teleport mode
